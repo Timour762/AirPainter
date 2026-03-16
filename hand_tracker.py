@@ -70,6 +70,12 @@ class HandTracker:
         y = int(landmark.y * height)
         return (x, y)
 
+    def get_landmark_vector(self, hand_landmarks):
+        vector = []
+        for lm in hand_landmarks.landmark:
+            vector.extend([lm.x, lm.y])
+        return vector
+
     def is_draw_gesture(self, hand_landmarks):
         if not self.available or self.mp_hands is None:
             return False
