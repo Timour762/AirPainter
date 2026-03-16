@@ -15,8 +15,11 @@ from ui import draw_coords, draw_header, draw_pointer
 
 try:
     from ml.inference import GestureInferenceEngine
+    from ml.runtime import RuntimeState, apply_gesture_action
 except Exception:
     GestureInferenceEngine = None
+    RuntimeState = None
+    apply_gesture_action = None
 
 
 def load_inference_engine():
@@ -48,7 +51,8 @@ def main():
     canvas = CanvasManager(width, height)
     ml_engine, ml_status = load_inference_engine()
 
-    color_index = 0
+    runtime_state = RuntimeState(color_index=0) if RuntimeState else None
+    color_index = runtime_state.color_index if runtime_state else 0
     canvas.set_color(COLOR_PALETTE[color_index])
     draw_enabled = True
     tracker_status = tracker.error
@@ -74,7 +78,8 @@ def main():
 
                 point = tracker.get_index_finger_tip(hand_landmarks, width, height)
                 smooth_point = tracker.smooth(point)
-                draw_pointer(frame, smooth_point, DRAW_RADIUS, COLOR_PALETTE[color_index])
+                current_color_index = runtime_state.color_index if runtime_state else color_index
+                draw_pointer(frame, smooth_point, DRAW_RADIUS, COLOR_PALETTE[current_color_index])
                 draw_coords(frame, smooth_point)
 
                 active_gesture = "pause"
@@ -100,28 +105,24 @@ def main():
                 if not draw_enabled:
                     active_gesture = "pause"
 
-                if active_gesture == "draw":
-                    canvas.draw(smooth_point)
-                    mode = "DRAW"
-                    status_message = "Action: drawing"
-                elif active_gesture == "erase":
-                    canvas.erase(smooth_point)
-                    mode = "ERASE"
-                    status_message = "Action: erasing"
-                elif active_gesture == "clear":
-                    canvas.clear()
-                    canvas.reset_stroke()
-                    mode = "CLEAR"
-                    status_message = "Action: canvas cleared"
-                elif active_gesture == "change_color":
-                    color_index = (color_index + 1) % len(COLOR_PALETTE)
-                    canvas.set_color(COLOR_PALETTE[color_index])
-                    canvas.reset_stroke()
-                    mode = "COLOR"
-                    status_message = f"Action: color changed ({color_index + 1}/{len(COLOR_PALETTE)})"
+                if runtime_state is not None and apply_gesture_action is not None:
+                    runtime_state = apply_gesture_action(
+                        active_gesture,
+                        smooth_point,
+                        canvas,
+                        runtime_state,
+                        COLOR_PALETTE,
+                        draw_enabled=draw_enabled,
+                    )
+                    mode = runtime_state.mode
+                    status_message = runtime_state.status_message
                 else:
-                    canvas.reset_stroke()
-                    if draw_enabled:
+                    if active_gesture == "draw":
+                        canvas.draw(smooth_point)
+                        mode = "DRAW"
+                        status_message = "Action: drawing"
+                    else:
+                        canvas.reset_stroke()
                         status_message = "Action: pause"
             else:
                 tracker.reset()
