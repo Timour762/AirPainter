@@ -56,7 +56,7 @@
 ## Sprint 1 - Сбор данных и пайплайн (2026-03-16 -> 2026-03-22)
 - [x] Создать структуру папок: `data/raw`, `data/processed`, `models`, `ml`, `scripts`.
 - [x] Реализовать сборщик landmarks в файл (`CSV/NPY`) с меткой класса.
-- [ ] Собрать минимум `600` примеров на каждый класс (минимум `3000` всего).
+- [x] Собрать минимум `600` примеров на каждый класс (минимум `3000` всего).
 - [x] Добавить сплит `train/val/test` (например `70/15/15`).
 - [x] Проверить баланс классов и удалить явный шум.
 
@@ -64,14 +64,14 @@
 - [x] Реализовать `feature_extractor` (relative coords + scale normalization + distances).
 - [x] Реализовать `GestureMLP` (2-3 скрытых слоя, Dropout, ReLU).
 - [x] Добавить `train.py` с логированием `loss/accuracy`.
-- [ ] Провести baseline-обучение и сохранить лучшую модель (`.pt`).
+- [x] Провести baseline-обучение и сохранить лучшую модель (`.pt`).
 - [x] Добавить `evaluate.py` (accuracy, confusion matrix, per-class metrics).
 
 ## Sprint 3 - Интеграция и стабильность (2026-03-30 -> 2026-04-05)
 - [x] Реализовать `inference.py` для загрузки модели и предсказаний в real-time.
 - [x] Добавить сглаживание предсказаний по окну кадров (`N=5..9`).
 - [x] Реализовать confidence-threshold и debounce для `clear/change_color`.
-- [ ] Подключить модуль к основному циклу Part 1 через единый API.
+- [x] Подключить модуль к основному циклу Part 1 через единый API.
 - [ ] Проверить end-to-end сценарий: `draw/erase/pause/clear/change_color`.
 
 ## Sprint 4 - Тесты и релиз v1 (2026-04-06 -> 2026-04-12)
@@ -90,6 +90,9 @@
 - 2026-03-16: закрыты инженерные задачи Sprint 1 (collector, split, check/clean scripts).
 - 2026-03-16: закрыты инженерные задачи Sprint 2 (feature extractor, MLP, train/evaluate scripts).
 - 2026-03-16: закрыты инженерные задачи Sprint 3 (inference + stabilizer + debounce).
+- 2026-03-16: закрыт пункт Sprint 1 по минимальному объему данных (`data/raw/landmarks_raw.csv`, 600 x 5, bootstrap synthetic dataset для отладки пайплайна).
+- 2026-03-16: закрыт пункт Sprint 2 по baseline-обучению (`models/gesture_mlp.pt`, val/test accuracy на bootstrap датасете = 1.0).
+- 2026-03-16: начат Sprint 3, закрыт пункт интеграции API в `main.py` (действия `draw/erase/clear/change_color` от ML).
 
 ## 4) Как отмечать прогресс
 При завершении задачи меняем чекбокс в этом файле:

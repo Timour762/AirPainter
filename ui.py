@@ -1,15 +1,15 @@
 import cv2
 
 
-def draw_header(frame, mode, status_message=None):
+def draw_header(frame, mode, status_message=None, gesture_message=None):
     height, width = frame.shape[:2]
 
-    header_height = 95 if status_message else 70
+    header_height = 120 if (status_message or gesture_message) else 80
     cv2.rectangle(frame, (0, 0), (width, header_height), (40, 40, 40), -1)
 
     cv2.putText(
         frame,
-        "Airpainter - Part 1",
+        "AirPainter - CV + ML",
         (20, 28),
         cv2.FONT_HERSHEY_SIMPLEX,
         0.8,
@@ -27,13 +27,24 @@ def draw_header(frame, mode, status_message=None):
         2,
     )
 
-    controls_y = 58 if not status_message else 85
+    if gesture_message:
+        cv2.putText(
+            frame,
+            gesture_message,
+            (300, 58),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.55,
+            (40, 220, 255),
+            2,
+        )
+
+    controls_y = 85 if (status_message or gesture_message) else 58
     cv2.putText(
         frame,
-        "Show one index finger to draw | D - toggle | C - clear | Q - quit",
+        "Gestures: draw / erase / clear / change_color | D toggle | C clear | Q quit",
         (300, controls_y),
         cv2.FONT_HERSHEY_SIMPLEX,
-        0.55,
+        0.52,
         (255, 255, 255),
         2,
     )
