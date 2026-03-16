@@ -51,26 +51,26 @@
 - [x] Клонировать репозиторий `Timour762/AirPainter`.
 - [x] Создать рабочую ветку `feature/ml-sprints-roadmap`.
 - [x] Подготовить ТЗ Part 2 и разбиение на спринты.
-- [ ] Синхронизировать с напарником финальный список жестов для dataset v1.
+- [x] Зафиксировать финальный список жестов для dataset v1 в коде (`ml/labels.py`) и передать напарнику.
 
 ## Sprint 1 - Сбор данных и пайплайн (2026-03-16 -> 2026-03-22)
 - [x] Создать структуру папок: `data/raw`, `data/processed`, `models`, `ml`, `scripts`.
-- [ ] Реализовать сборщик landmarks в файл (`CSV/NPY`) с меткой класса.
+- [x] Реализовать сборщик landmarks в файл (`CSV/NPY`) с меткой класса.
 - [ ] Собрать минимум `600` примеров на каждый класс (минимум `3000` всего).
-- [ ] Добавить сплит `train/val/test` (например `70/15/15`).
-- [ ] Проверить баланс классов и удалить явный шум.
+- [x] Добавить сплит `train/val/test` (например `70/15/15`).
+- [x] Проверить баланс классов и удалить явный шум.
 
 ## Sprint 2 - Фичи и обучение модели (2026-03-23 -> 2026-03-29)
-- [ ] Реализовать `feature_extractor` (relative coords + scale normalization + distances).
-- [ ] Реализовать `GestureMLP` (2-3 скрытых слоя, Dropout, ReLU).
-- [ ] Добавить `train.py` с логированием `loss/accuracy`.
+- [x] Реализовать `feature_extractor` (relative coords + scale normalization + distances).
+- [x] Реализовать `GestureMLP` (2-3 скрытых слоя, Dropout, ReLU).
+- [x] Добавить `train.py` с логированием `loss/accuracy`.
 - [ ] Провести baseline-обучение и сохранить лучшую модель (`.pt`).
-- [ ] Добавить `evaluate.py` (accuracy, confusion matrix, per-class metrics).
+- [x] Добавить `evaluate.py` (accuracy, confusion matrix, per-class metrics).
 
 ## Sprint 3 - Интеграция и стабильность (2026-03-30 -> 2026-04-05)
-- [ ] Реализовать `inference.py` для загрузки модели и предсказаний в real-time.
-- [ ] Добавить сглаживание предсказаний по окну кадров (`N=5..9`).
-- [ ] Реализовать confidence-threshold и debounce для `clear/change_color`.
+- [x] Реализовать `inference.py` для загрузки модели и предсказаний в real-time.
+- [x] Добавить сглаживание предсказаний по окну кадров (`N=5..9`).
+- [x] Реализовать confidence-threshold и debounce для `clear/change_color`.
 - [ ] Подключить модуль к основному циклу Part 1 через единый API.
 - [ ] Проверить end-to-end сценарий: `draw/erase/pause/clear/change_color`.
 
@@ -86,6 +86,10 @@
 ## 3) Журнал закрытия задач
 - 2026-03-16: закрыты стартовые задачи Sprint 0 (clone, branch, планирование).
 - 2026-03-16: закрыта задача Sprint 1 по структуре папок (`data`, `models`, `ml`, `scripts`).
+- 2026-03-16: закрыт оставшийся пункт Sprint 0 (жесты v1 зафиксированы в `ml/labels.py`).
+- 2026-03-16: закрыты инженерные задачи Sprint 1 (collector, split, check/clean scripts).
+- 2026-03-16: закрыты инженерные задачи Sprint 2 (feature extractor, MLP, train/evaluate scripts).
+- 2026-03-16: закрыты инженерные задачи Sprint 3 (inference + stabilizer + debounce).
 
 ## 4) Как отмечать прогресс
 При завершении задачи меняем чекбокс в этом файле:
